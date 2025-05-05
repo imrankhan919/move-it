@@ -2,6 +2,7 @@ const express = require('express')
 const connectDB = require('./config/dbConfig')
 require('dotenv').config()
 const colors = require('colors')
+const errorHandler = require('./middleware/errorHandler')
 
 const app = express()
 const PORT = process.env.PORT || 5000
@@ -25,6 +26,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", require("./routes/authRoutes"))
 
 
-
+// Error Handler
+app.use(errorHandler)
 
 app.listen(PORT, () => console.log(`Server is running at PORT :${PORT}`.bgBlue))
