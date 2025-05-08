@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 const User = require('../models/userModel')
 
-const protect = async (req, res, next) => {
+const adminProtect = async (req, res, next) => {
     let token
     try {
         if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
@@ -10,19 +10,23 @@ const protect = async (req, res, next) => {
             const decoded = jwt.verify(token, process.env.JWT_SECRET)
             // Find User
             const user = await User.findById(decoded.id).select("-password")
-            if (user) {
+            if (user.isAdmin) {
                 req.user = user
                 next()
+            } else {
+                res.status(401)
+                throw new Error('You are not admin!!')
+
             }
         } else {
             res.status(401)
-            throw new Error('Invalid Token Token Found!!')
+            throw new Error('Invalid Token Token Found!! : Not Admin')
 
         }
     } catch (error) {
         res.status(401)
-        throw new Error('No Token Found!!')
+        throw new Error('No Token Found!! : Not Admin')
     }
 }
 
-module.exports = protect
+module.exports = adminProtect

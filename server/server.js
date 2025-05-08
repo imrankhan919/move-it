@@ -26,6 +26,14 @@ app.get("/", (req, res) => {
 app.use("/api/auth", require("./routes/authRoutes"))
 
 
+// Admin Routes
+app.use("/api/admin", require("./routes/adminRoutes"))
+
+
+// Vehicle Routes
+app.use("/api/vehicle", require("./routes/vehicleRoutes"))
+
+
 // Error Handler
 app.use(errorHandler)
 
