@@ -34,6 +34,9 @@ app.use("/api/admin", require("./routes/adminRoutes"))
 app.use("/api/vehicle", require("./routes/vehicleRoutes"))
 
 
+// Booking Routes
+app.use("/api/booking", require("./routes/bookingRoute"))
+
 // Error Handler
 app.use(errorHandler)
 
