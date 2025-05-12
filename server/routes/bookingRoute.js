@@ -1,10 +1,12 @@
 const express = require('express')
-const { addBooking } = require('../controllers/bookingController')
+const { addBooking, getBooking, cancelBooking } = require('../controllers/bookingController')
 const protect = require('../middleware/authMiddleware')
 
 const router = express.Router()
 
-router.post("/:id", protect, addBooking)
+router.post("/:uid", protect, addBooking)
+router.get("/:bid", protect, getBooking)
+router.put("/:bid", protect, cancelBooking)
 
 
 module.exports = router

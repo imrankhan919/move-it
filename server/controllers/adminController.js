@@ -1,3 +1,5 @@
+const Booking = require("../models/bookingModel")
+const User = require("../models/userModel")
 const Vehicle = require("../models/vehicleModel")
 
 const addVehicle = async (req, res) => {
@@ -45,7 +47,7 @@ const updateVehicle = async (req, res) => {
 
 const removeVehicle = async (req, res) => {
 
-    const updatedVehicle = await Vehicle.findByIdAndDelete(req.params.id)
+    await Vehicle.findByIdAndDelete(req.params.id)
 
     res.status(200).json({
         id: req.params.id,
@@ -55,7 +57,40 @@ const removeVehicle = async (req, res) => {
 }
 
 
+const getAllBookings = async (req, res) => {
+    const bookings = await Booking.find()
+    if (!bookings) {
+        res.status(404)
+        throw new Error('No Bookings Found!!')
+    }
+    res.status(200).json(bookings)
+}
+
+const getAllUsers = async (req, res) => {
+    const users = await User.find()
+    if (!users) {
+        res.status(404)
+        throw new Error('No Users Found!!')
+    }
+    res.status(200).json(users)
+}
+
+const getAllVehicles = async (req, res) => {
+    const vehicles = await Vehicle.find()
+    if (!vehicles) {
+        res.status(404)
+        throw new Error('No Vehicles Found!!')
+    }
+    res.status(200).json(vehicles)
+}
+
+
+const updateBooking = async (req, res) => {
+    const updatedBooking = await Booking.findByIdAndUpdate(req.params.bid, req.body, { new: true })
+    res.status(200).json(updatedBooking)
+}
 
 
 
-module.exports = { addVehicle, updateVehicle, removeVehicle }
+
+module.exports = { addVehicle, updateVehicle, removeVehicle, getAllBookings, getAllUsers, getAllVehicles, updateBooking }

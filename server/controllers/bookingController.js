@@ -4,7 +4,7 @@ const Vehicle = require("../models/vehicleModel")
 const addBooking = async (req, res) => {
 
     // Get Vehicle
-    const vehicle = await Vehicle.findById(req.params.id)
+    const vehicle = await Vehicle.findById(req.params.uid)
 
     if (!vehicle) {
         res.status(404)
@@ -42,4 +42,45 @@ const addBooking = async (req, res) => {
 }
 
 
-module.exports = { addBooking }
+// Get Booking
+const getBooking = async (req, res) => {
+
+    const booking = await Booking.findById(req.params.bid).populate('user').populate('vehicle')
+    if (!booking) {
+        res.status(404)
+        throw new Error('Booking Not Found!!')
+    }
+
+    res.status(200).json(booking)
+}
+
+
+// Cancel Booking
+const cancelBooking = async (req, res) => {
+
+    // Check if admin accepted booking
+    const booking = await Booking.findById(req.params.bid)
+
+    if (!booking) {
+        res.status(404)
+        throw new Error('Booking Not Found!')
+    }
+
+    if (booking.status === "accepted") {
+        res.status(400)
+        throw new Error("Booking Can't Be Canceled")
+    } else {
+        const cancelledBooking = await Booking.findByIdAndUpdate(req.params.bid, { status: 'cancelled' }, { new: true })
+        res.status(200).json(cancelledBooking)
+    }
+
+
+
+
+}
+
+
+
+
+
+module.exports = { addBooking, getBooking, cancelBooking }
