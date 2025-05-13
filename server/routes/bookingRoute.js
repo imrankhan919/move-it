@@ -8,5 +8,8 @@ router.post("/:uid", protect, addBooking)
 router.get("/:bid", protect, getBooking)
 router.put("/:bid", protect, cancelBooking)
 
+router.use("/:bid/comment", require("./commentRoute"))
 
 module.exports = router
+
+
