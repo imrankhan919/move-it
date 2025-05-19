@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Truck, Menu, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,10 +12,10 @@ const Header = () => {
     return (
         <header className="bg-white shadow-sm sticky top-0 z-50">
             <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-                <div className="flex items-center space-x-2">
+                <Link to={"/"} className="flex items-center space-x-2">
                     <Truck className="h-6 w-6 text-indigo-600" />
                     <span className="text-xl font-bold text-gray-800">Move-It</span>
-                </div>
+                </Link>
 
                 {/* Desktop Navigation */}
                 <nav className="hidden md:flex space-x-8">

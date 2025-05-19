@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Hero from "../assets/hero.svg"
 import { ChevronRight, Truck, MapPin, Package } from 'lucide-react';
-// import FeatureCard from '../components/FeatureCard';
-// import TestimonialCard from '../components/TestimonialCard';
+import FeatureCard from '../components/FeatureCard';
+import TestimonialCard from '../components/TestimonialCard';
 
 const Home = () => {
     const [pickupLocation, setPickupLocation] = useState('');
@@ -14,7 +14,7 @@ const Home = () => {
 
 
             {/* Hero Section */}
-            <section className="bg-gradient-to-br from-indigo-50 to-white py-12 md:py-20">
+            <section className="bg-gradient-to-br from-indigo-50 to-white py-12 px-12 md:py-20">
                 <div className="container mx-auto px-4">
                     <div className="flex flex-col md:flex-row items-center">
                         <div className="md:w-1/2 mb-10 md:mb-0">
@@ -63,14 +63,9 @@ const Home = () => {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {/* {features.map((feature, index) => (
-              <FeatureCard
-                key={index}
-                icon={feature.icon}
-                title={feature.title}
-                description={feature.description}
-              />
-            ))} */}
+
+                        <FeatureCard />
+
                     </div>
                 </div>
             </section>
@@ -196,15 +191,9 @@ const Home = () => {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                        {/* {testimonials.map((testimonial, index) => (
-              <TestimonialCard 
-                key={index}
-                quote={testimonial.quote}
-                author={testimonial.author}
-                role={testimonial.role}
-                imageSrc={testimonial.imageSrc}
-              />
-            ))} */}
+
+                        <TestimonialCard />
+
                     </div>
                 </div>
             </section>
