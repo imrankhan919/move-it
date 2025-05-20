@@ -59,7 +59,8 @@ const login = async (req, res) => {
             id: user._id,
             name: user.name,
             email: user.email,
-            token: generateToken(user._id)
+            token: generateToken(user._id),
+            isAdmin: user.isAdmin
         })
     } else {
         res.status(400)

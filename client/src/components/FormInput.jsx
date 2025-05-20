@@ -4,11 +4,10 @@ const FormInput = ({
     label,
     type,
     placeholder,
-    value,
-    onChange,
     error,
     icon,
-    endAdornment
+    handleChange,
+    value
 }) => {
     return (
         <div className="space-y-1">
@@ -25,25 +24,13 @@ const FormInput = ({
                     type={type}
                     name={label}
                     id={label}
+                    value={value}
+                    onChange={handleChange}
                     className={`block w-full ${icon ? 'pl-10' : 'pl-3'} pr-10 py-2 sm:text-sm border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 ${error ? 'border-red-300 text-red-900 placeholder-red-300 focus:ring-red-500 focus:border-red-500' : ''
                         }`}
                     placeholder={placeholder}
-                    value={value}
-                    onChange={onChange}
-                    aria-invalid={error ? 'true' : 'false'}
-                    aria-describedby={error ? `${label}-error` : undefined}
                 />
-                {endAdornment && (
-                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                        {endAdornment}
-                    </div>
-                )}
             </div>
-            {error && (
-                <p className="mt-1 text-sm text-red-600" id={`${label}-error`}>
-                    {error}
-                </p>
-            )}
         </div>
     );
 };

@@ -1,13 +1,64 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Eye, EyeOff, Truck, Mail, Lock, Github, Twitter } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import FormInput from '../components/FormInput';
 import Button from '../components/Button';
 import AuthLayout from '../components/AuthLayout';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../features/auth/authSlice';
+import Loader from '../components/Loader';
+import { toast } from 'react-toastify';
 
 const Login = () => {
+
+    const { user, isLoading, isSuccess, isError, message } = useSelector(state => state.auth)
+
+
+    const [formData, setFormData] = useState({
+
+        email: "",
+        password: "",
+
+    })
+
+    const { email, password } = formData
+
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => setShowPassword(!showPassword);
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        dispatch(loginUser(formData))
+    }
+
+    useEffect(() => {
+
+        if (user) {
+            navigate("/")
+        }
+
+        if (isError && message) {
+            toast.error(message)
+        }
+
+    }, [user, isError, message])
+
+
+    if (isLoading) {
+        return <Loader />
+    }
+
 
 
     return (
@@ -15,16 +66,20 @@ const Login = () => {
             title="Welcome back"
             subtitle="Enter your credentials to access your account"
         >
-            <form className="space-y-6 w-full">
+            <form className="space-y-6 w-full" onSubmit={handleSubmit}>
                 <FormInput
-                    label="Email"
+                    label="email"
+                    value={email}
+                    handleChange={handleChange}
                     type="email"
                     placeholder="Enter your email"
                     icon={<Mail size={18} className="text-gray-500" />}
                 />
 
                 <FormInput
-                    label="Password"
+                    label="password"
+                    value={password}
+                    handleChange={handleChange}
                     type={showPassword ? 'text' : 'password'}
                     placeholder="Enter your password"
 

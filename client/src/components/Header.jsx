@@ -1,13 +1,27 @@
 import React, { useState } from 'react';
 import { Truck, Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutUser } from '../features/auth/authSlice';
 
 const Header = () => {
+
+    const { user } = useSelector(state => state.auth)
+    const dispatch = useDispatch()
+
+
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
+
+    const handleLogout = () => {
+        dispatch(logoutUser())
+    }
+
+
+
 
     return (
         <header className="bg-white shadow-sm sticky top-0 z-50">
@@ -31,12 +45,35 @@ const Header = () => {
                 </nav>
 
                 <div className="hidden md:block">
-                    <a
-                        href="/login"
-                        className="px-4 py-2 text-indigo-600 border border-indigo-600 rounded-lg hover:bg-indigo-50 transition-colors duration-200"
-                    >
-                        Login
-                    </a>
+
+                    {
+                        user ? (<>
+
+                            {
+                                user.isAdmin ? (<a
+                                    href="/auth/admin"
+                                    className="px-4 py-2 text-indigo-600 border border-indigo-600 rounded-lg hover:bg-indigo-50 transition-colors duration-200"
+                                >
+                                    Welcome Admin
+                                </a>) : (<></>)
+                            }
+
+                            <button
+                                onClick={handleLogout}
+                                className="px-4 py-2 text-white mx-2 bg-red-600 rounded-lg hover:bg-red-500 transition-colors duration-200"
+                            >
+                                Logout
+                            </button>
+
+                        </>) : (
+                            <a
+                                href="/login"
+                                className="px-4 py-2 text-indigo-600 border border-indigo-600 rounded-lg hover:bg-indigo-50 transition-colors duration-200"
+                            >
+                                Login
+                            </a>
+                        )
+                    }
                 </div>
 
                 {/* Mobile Menu Button */}
@@ -63,13 +100,22 @@ const Header = () => {
                                 {link.label}
                             </a> */}
 
-                        <a
-                            href="/login"
-                            className="text-indigo-600 font-medium py-2"
-                            onClick={() => setIsMenuOpen(false)}
-                        >
-                            Login
-                        </a>
+                        {
+                            !user ? (<a
+                                href="/login"
+                                className="text-indigo-600 font-medium py-2"
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                Login
+                            </a>) : (<button
+
+                                className="bg-red-600 font-medium py-2 rounded-md text-white"
+                                onClick={handleLogout}
+                            >
+                                Logout
+                            </button>)
+                        }
+
                     </nav>
                 </div>
             )}
