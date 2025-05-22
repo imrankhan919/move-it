@@ -7,6 +7,7 @@ import {
     MessageSquare,
     X
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 
 
@@ -17,11 +18,11 @@ const Sidebar = ({
     setIsOpen
 }) => {
     const menuItems = [
-        { id: 'dashboard', name: 'Dashboard', icon: <LayoutDashboard size={20} /> },
-        { id: 'users', name: 'All Users', icon: <Users size={20} /> },
-        { id: 'bookings', name: 'All Bookings', icon: <CalendarClock size={20} /> },
-        { id: 'vehicles', name: 'All Vehicles', icon: <Car size={20} /> },
-        { id: 'comments', name: 'Comments', icon: <MessageSquare size={20} /> },
+        { id: 'dashboard', name: 'Dashboard', icon: <LayoutDashboard size={20} />, url: "/auth/admin" },
+        { id: 'users', name: 'All Users', icon: <Users size={20} />, url: "/auth/admin/users" },
+        { id: 'bookings', name: 'All Bookings', icon: <CalendarClock size={20} />, url: "/auth/admin/bookings" },
+        { id: 'vehicles', name: 'All Vehicles', icon: <Car size={20} />, url: "/auth/admin/vehicles" },
+        { id: 'comments', name: 'Comments', icon: <MessageSquare size={20} />, url: "/auth/admin/comments" },
     ];
 
     const handleNavigation = (pageId) => {
@@ -65,8 +66,8 @@ const Sidebar = ({
                     <ul className="space-y-2">
                         {menuItems.map((item) => (
                             <li key={item.id}>
-                                <button
-                                    onClick={() => handleNavigation(item.id)}
+                                <Link
+                                    to={item.url}
                                     className={`
                     w-full flex items-center space-x-3 px-4 py-3 rounded-md transition-colors
                     ${activePage === item.id
@@ -76,7 +77,7 @@ const Sidebar = ({
                                 >
                                     {item.icon}
                                     <span>{item.name}</span>
-                                </button>
+                                </Link>
                             </li>
                         ))}
                     </ul>
