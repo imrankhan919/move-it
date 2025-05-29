@@ -1,29 +1,19 @@
 import React, { useState } from 'react';
 import { Search, Filter, ChevronDown } from 'lucide-react';
+import { useSelector } from 'react-redux';
 
 const Users = () => {
 
-    const mockUsers = [
-        { id: '1', name: 'John Doe', email: 'john@example.com', role: 'Customer', status: 'Active' },
-        { id: '2', name: 'Jane Smith', email: 'jane@example.com', role: 'Customer', status: 'Active' },
-        { id: '3', name: 'Michael Johnson', email: 'michael@example.com', role: 'Admin', status: 'Active' },
-        { id: '4', name: 'Sarah Williams', email: 'sarah@example.com', role: 'Customer', status: 'Inactive' },
-        { id: '5', name: 'Robert Brown', email: 'robert@example.com', role: 'Customer', status: 'Active' },
-        { id: '6', name: 'Emily Davis', email: 'emily@example.com', role: 'Manager', status: 'Active' },
-        { id: '7', name: 'David Miller', email: 'david@example.com', role: 'Customer', status: 'Active' },
-        { id: '8', name: 'Jennifer Wilson', email: 'jennifer@example.com', role: 'Customer', status: 'Inactive' },
-        { id: '9', name: 'James Taylor', email: 'james@example.com', role: 'Customer', status: 'Active' },
-        { id: '10', name: 'Lisa Anderson', email: 'lisa@example.com', role: 'Customer', status: 'Active' },
-        { id: '11', name: 'Thomas Martin', email: 'thomas@example.com', role: 'Customer', status: 'Active' },
-        { id: '12', name: 'Patricia Thompson', email: 'patricia@example.com', role: 'Customer', status: 'Inactive' },
-    ]
+    const { users } = useSelector(state => state.admin)
+
+
 
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 8;
 
     // Filter users based on search term
-    const filteredUsers = mockUsers.filter(user =>
+    const filteredUsers = users.filter(user =>
         user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.email.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -69,7 +59,6 @@ const Users = () => {
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
@@ -88,15 +77,7 @@ const Users = () => {
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{user.email}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{user.role}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <span className={`px-2 py-1 text-xs rounded-full ${user.status === 'Active'
-                                                ? 'bg-green-100 text-green-800'
-                                                : 'bg-gray-100 text-gray-800'
-                                                }`}>
-                                                {user.status}
-                                            </span>
-                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{user.isAdmin ? "Admin" : "User"}</td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm">
                                             <button className="text-blue-600 hover:text-blue-800 mr-3">Edit</button>
                                             <button className="text-red-600 hover:text-red-800">Delete</button>

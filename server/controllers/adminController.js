@@ -58,7 +58,7 @@ const removeVehicle = async (req, res) => {
 
 
 const getAllBookings = async (req, res) => {
-    const bookings = await Booking.find()
+    const bookings = await Booking.find().populate('user').populate('vehicle')
     if (!bookings) {
         res.status(404)
         throw new Error('No Bookings Found!!')

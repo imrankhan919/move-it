@@ -1,131 +1,134 @@
 import React, { useState } from 'react';
 import { Search, Filter, ChevronDown, Calendar, Check, X, MoreVertical } from 'lucide-react';
+import { useSelector } from 'react-redux';
 
 
 const Bookings = () => {
 
-    const mockBookings = [
-        {
-            id: '1',
-            bookingId: 'BK12345',
-            customerName: 'John Doe',
-            vehicleName: 'Toyota Camry',
-            startDate: '2025-01-10',
-            endDate: '2025-01-13',
-            status: 'Confirmed',
-            amount: '240.00'
-        },
-        {
-            id: '2',
-            bookingId: 'BK12346',
-            customerName: 'Jane Smith',
-            vehicleName: 'Honda Accord',
-            startDate: '2025-01-15',
-            endDate: '2025-01-20',
-            status: 'Pending',
-            amount: '450.00'
-        },
-        {
-            id: '3',
-            bookingId: 'BK12347',
-            customerName: 'Michael Johnson',
-            vehicleName: 'BMW X5',
-            startDate: '2025-01-12',
-            endDate: '2025-01-14',
-            status: 'Confirmed',
-            amount: '560.00'
-        },
-        {
-            id: '4',
-            bookingId: 'BK12348',
-            customerName: 'Sarah Williams',
-            vehicleName: 'Ford Mustang',
-            startDate: '2025-01-20',
-            endDate: '2025-01-22',
-            status: 'Cancelled',
-            amount: '320.00'
-        },
-        {
-            id: '5',
-            bookingId: 'BK12349',
-            customerName: 'Robert Brown',
-            vehicleName: 'Chevrolet Malibu',
-            startDate: '2025-01-08',
-            endDate: '2025-01-12',
-            status: 'Completed',
-            amount: '380.00'
-        },
-        {
-            id: '6',
-            bookingId: 'BK12350',
-            customerName: 'Emily Davis',
-            vehicleName: 'Jeep Wrangler',
-            startDate: '2025-01-25',
-            endDate: '2025-01-30',
-            status: 'Confirmed',
-            amount: '750.00'
-        },
-        {
-            id: '7',
-            bookingId: 'BK12351',
-            customerName: 'David Miller',
-            vehicleName: 'Nissan Altima',
-            startDate: '2025-02-01',
-            endDate: '2025-02-03',
-            status: 'Pending',
-            amount: '220.00'
-        },
-        {
-            id: '8',
-            bookingId: 'BK12352',
-            customerName: 'Jennifer Wilson',
-            vehicleName: 'Hyundai Sonata',
-            startDate: '2025-02-05',
-            endDate: '2025-02-08',
-            status: 'Confirmed',
-            amount: '270.00'
-        },
-        {
-            id: '9',
-            bookingId: 'BK12353',
-            customerName: 'James Taylor',
-            vehicleName: 'Audi A4',
-            startDate: '2025-01-18',
-            endDate: '2025-01-21',
-            status: 'Completed',
-            amount: '480.00'
-        },
-        {
-            id: '10',
-            bookingId: 'BK12354',
-            customerName: 'Lisa Anderson',
-            vehicleName: 'Mercedes-Benz E-Class',
-            startDate: '2025-02-10',
-            endDate: '2025-02-15',
-            status: 'Pending',
-            amount: '850.00'
-        },
-    ];
+    const { totalBookings } = useSelector(state => state.admin)
+
+    // const mockBookings = [
+    //     {
+    //         id: '1',
+    //         bookingId: 'BK12345',
+    //         customerName: 'John Doe',
+    //         vehicleName: 'Toyota Camry',
+    //         startDate: '2025-01-10',
+    //         endDate: '2025-01-13',
+    //         status: 'Confirmed',
+    //         amount: '240.00'
+    //     },
+    //     {
+    //         id: '2',
+    //         bookingId: 'BK12346',
+    //         customerName: 'Jane Smith',
+    //         vehicleName: 'Honda Accord',
+    //         startDate: '2025-01-15',
+    //         endDate: '2025-01-20',
+    //         status: 'Pending',
+    //         amount: '450.00'
+    //     },
+    //     {
+    //         id: '3',
+    //         bookingId: 'BK12347',
+    //         customerName: 'Michael Johnson',
+    //         vehicleName: 'BMW X5',
+    //         startDate: '2025-01-12',
+    //         endDate: '2025-01-14',
+    //         status: 'Confirmed',
+    //         amount: '560.00'
+    //     },
+    //     {
+    //         id: '4',
+    //         bookingId: 'BK12348',
+    //         customerName: 'Sarah Williams',
+    //         vehicleName: 'Ford Mustang',
+    //         startDate: '2025-01-20',
+    //         endDate: '2025-01-22',
+    //         status: 'Cancelled',
+    //         amount: '320.00'
+    //     },
+    //     {
+    //         id: '5',
+    //         bookingId: 'BK12349',
+    //         customerName: 'Robert Brown',
+    //         vehicleName: 'Chevrolet Malibu',
+    //         startDate: '2025-01-08',
+    //         endDate: '2025-01-12',
+    //         status: 'Completed',
+    //         amount: '380.00'
+    //     },
+    //     {
+    //         id: '6',
+    //         bookingId: 'BK12350',
+    //         customerName: 'Emily Davis',
+    //         vehicleName: 'Jeep Wrangler',
+    //         startDate: '2025-01-25',
+    //         endDate: '2025-01-30',
+    //         status: 'Confirmed',
+    //         amount: '750.00'
+    //     },
+    //     {
+    //         id: '7',
+    //         bookingId: 'BK12351',
+    //         customerName: 'David Miller',
+    //         vehicleName: 'Nissan Altima',
+    //         startDate: '2025-02-01',
+    //         endDate: '2025-02-03',
+    //         status: 'Pending',
+    //         amount: '220.00'
+    //     },
+    //     {
+    //         id: '8',
+    //         bookingId: 'BK12352',
+    //         customerName: 'Jennifer Wilson',
+    //         vehicleName: 'Hyundai Sonata',
+    //         startDate: '2025-02-05',
+    //         endDate: '2025-02-08',
+    //         status: 'Confirmed',
+    //         amount: '270.00'
+    //     },
+    //     {
+    //         id: '9',
+    //         bookingId: 'BK12353',
+    //         customerName: 'James Taylor',
+    //         vehicleName: 'Audi A4',
+    //         startDate: '2025-01-18',
+    //         endDate: '2025-01-21',
+    //         status: 'Completed',
+    //         amount: '480.00'
+    //     },
+    //     {
+    //         id: '10',
+    //         bookingId: 'BK12354',
+    //         customerName: 'Lisa Anderson',
+    //         vehicleName: 'Mercedes-Benz E-Class',
+    //         startDate: '2025-02-10',
+    //         endDate: '2025-02-15',
+    //         status: 'Pending',
+    //         amount: '850.00'
+    //     },
+    // ];
 
 
 
-    const [searchTerm, setSearchTerm] = useState('');
-    const [currentPage, setCurrentPage] = useState(1);
-    const [activeDropdown, setActiveDropdown] = useState(null);
-    const itemsPerPage = 8;
+    // const [searchTerm, setSearchTerm] = useState('');
+    // const [currentPage, setCurrentPage] = useState(1);
+    // const [activeDropdown, setActiveDropdown] = useState(null);
+    // const itemsPerPage = 8;
 
     // Filter bookings based on search term
-    const filteredBookings = mockBookings.filter(booking =>
-        booking.customerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        booking.vehicleName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        booking.bookingId.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    // const filteredBookings = totalBookings.filter(booking =>
+    //     booking.customerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    //     booking.vehicleName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    //     booking.bookingId.toLowerCase().includes(searchTerm.toLowerCase())
+    // );
 
     // Pagination
-    const indexOfLastBooking = currentPage * itemsPerPage;
-    const indexOfFirstBooking = indexOfLastBooking - itemsPerPage;
-    const currentBookings = filteredBookings.slice(indexOfFirstBooking, indexOfLastBooking);
-    const totalPages = Math.ceil(filteredBookings.length / itemsPerPage);
+    // const indexOfLastBooking = currentPage * itemsPerPage;
+    // const indexOfFirstBooking = indexOfLastBooking - itemsPerPage;
+    // const currentBookings = filteredBookings.slice(indexOfFirstBooking, indexOfLastBooking);
+    // const totalPages = Math.ceil(filteredBookings.length / itemsPerPage);
 
     // Function to get status badge styling
     const getStatusBadgeStyle = (status) => {
@@ -162,8 +165,6 @@ const Bookings = () => {
                         <input
                             type="text"
                             placeholder="Search bookings..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
                             className="pl-10 pr-4 py-2 border border-gray-200 rounded-md w-full sm:w-64 focus:outline-none focus:ring-1 focus:ring-blue-500"
                         />
                     </div>
@@ -199,21 +200,21 @@ const Bookings = () => {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100">
-                            {currentBookings.length > 0 ? (
-                                currentBookings.map((booking) => (
+                            {totalBookings.length > 0 ? (
+                                totalBookings.map((booking) => (
                                     <tr key={booking.id} className="hover:bg-gray-50 transition-colors">
                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                                            {booking.bookingId}
+                                            {booking._id}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                                            {booking.customerName}
+                                            {booking.user.name}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                                            {booking.vehicleName}
+                                            {booking.vehicle.name}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                                            <div>{booking.startDate}</div>
-                                            <div className="text-xs text-gray-500">to {booking.endDate}</div>
+                                            <div>{booking.pickupLocation}</div>
+                                            <div className="text-xs text-gray-500">to {booking.dropLocation}</div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <span className={`px-2 py-1 text-xs rounded-full ${getStatusBadgeStyle(booking.status)}`}>
@@ -221,7 +222,7 @@ const Bookings = () => {
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                                            ${booking.amount}
+                                            ${booking.totalBill}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm">
                                             <div className="relative">
@@ -251,7 +252,7 @@ const Bookings = () => {
                                                             <MoreVertical size={18} />
                                                         </button>
 
-                                                        {activeDropdown === booking.id && (
+                                                        {/* {activeDropdown === booking.id && (
                                                             <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 border border-gray-100">
                                                                 <div className="py-1">
                                                                     <button
@@ -268,7 +269,7 @@ const Bookings = () => {
                                                                     </button>
                                                                 </div>
                                                             </div>
-                                                        )}
+                                                        )} */}
                                                     </div>
                                                 )}
                                             </div>
@@ -287,7 +288,7 @@ const Bookings = () => {
                 </div>
 
                 {/* Pagination */}
-                {filteredBookings.length > 0 && (
+                {/* {filteredBookings.length > 0 && (
                     <div className="px-6 py-3 flex items-center justify-between border-t border-gray-100">
                         <div className="text-sm text-gray-500">
                             Showing <span className="font-medium">{indexOfFirstBooking + 1}</span> to{' '}
@@ -320,7 +321,7 @@ const Bookings = () => {
                             </button>
                         </div>
                     </div>
-                )}
+                )} */}
             </div>
         </div>
     );

@@ -1,155 +1,159 @@
 import React, { useState } from 'react';
 import { Search, Filter, Plus, ChevronDown, Edit, Trash, Eye, Car } from 'lucide-react';
 import VehicleModal from '../components/VehicleModal';
+import { useSelector } from 'react-redux';
 
 const Vehicles = () => {
 
-    const mockVehicles = [
-        {
-            id: '1',
-            name: 'Toyota Camry',
-            model: 'LE',
-            type: 'Sedan',
-            year: '2023',
-            licensePlate: 'ABC123',
-            ratePerDay: 80.00,
-            available: true,
-            description: 'Comfortable sedan with excellent fuel economy.'
-        },
-        {
-            id: '2',
-            name: 'Honda Accord',
-            model: 'Sport',
-            type: 'Sedan',
-            year: '2022',
-            licensePlate: 'DEF456',
-            ratePerDay: 85.00,
-            available: true,
-            description: 'Reliable mid-size sedan with modern features.'
-        },
-        {
-            id: '3',
-            name: 'BMW X5',
-            model: 'xDrive40i',
-            type: 'SUV',
-            year: '2023',
-            licensePlate: 'GHI789',
-            ratePerDay: 180.00,
-            available: true,
-            description: 'Luxury SUV with powerful performance and premium interior.'
-        },
-        {
-            id: '4',
-            name: 'Ford Mustang',
-            model: 'GT',
-            type: 'Sports Car',
-            year: '2023',
-            licensePlate: 'JKL012',
-            ratePerDay: 120.00,
-            available: false,
-            description: 'Iconic American muscle car with V8 engine.'
-        },
-        {
-            id: '5',
-            name: 'Chevrolet Malibu',
-            model: 'LT',
-            type: 'Sedan',
-            year: '2022',
-            licensePlate: 'MNO345',
-            ratePerDay: 75.00,
-            available: true,
-            description: 'Spacious sedan with good fuel efficiency.'
-        },
-        {
-            id: '6',
-            name: 'Jeep Wrangler',
-            model: 'Rubicon',
-            type: 'SUV',
-            year: '2023',
-            licensePlate: 'PQR678',
-            ratePerDay: 150.00,
-            available: true,
-            description: 'Rugged off-road vehicle perfect for adventures.'
-        },
-        {
-            id: '7',
-            name: 'Nissan Altima',
-            model: 'SV',
-            type: 'Sedan',
-            year: '2022',
-            licensePlate: 'STU901',
-            ratePerDay: 70.00,
-            available: true,
-            description: 'Comfortable sedan with advanced safety features.'
-        },
-        {
-            id: '8',
-            name: 'Hyundai Sonata',
-            model: 'SEL',
-            type: 'Sedan',
-            year: '2023',
-            licensePlate: 'VWX234',
-            ratePerDay: 75.00,
-            available: false,
-            description: 'Modern sedan with sleek design and tech features.'
-        },
-        {
-            id: '9',
-            name: 'Audi A4',
-            model: 'Premium Plus',
-            type: 'Luxury Sedan',
-            year: '2023',
-            licensePlate: 'YZA567',
-            ratePerDay: 130.00,
-            available: true,
-            description: 'Premium German sedan with sophisticated technology.'
-        },
-        {
-            id: '10',
-            name: 'Mercedes-Benz E-Class',
-            model: 'E350',
-            type: 'Luxury Sedan',
-            year: '2023',
-            licensePlate: 'BCD890',
-            ratePerDay: 160.00,
-            available: true,
-            description: 'Elegant luxury sedan with premium comfort features.'
-        },
-    ];
+    const { totalVehicles } = useSelector(state => state.admin)
+
+
+    // const mockVehicles = [
+    //     {
+    //         id: '1',
+    //         name: 'Toyota Camry',
+    //         model: 'LE',
+    //         type: 'Sedan',
+    //         year: '2023',
+    //         licensePlate: 'ABC123',
+    //         ratePerDay: 80.00,
+    //         available: true,
+    //         description: 'Comfortable sedan with excellent fuel economy.'
+    //     },
+    //     {
+    //         id: '2',
+    //         name: 'Honda Accord',
+    //         model: 'Sport',
+    //         type: 'Sedan',
+    //         year: '2022',
+    //         licensePlate: 'DEF456',
+    //         ratePerDay: 85.00,
+    //         available: true,
+    //         description: 'Reliable mid-size sedan with modern features.'
+    //     },
+    //     {
+    //         id: '3',
+    //         name: 'BMW X5',
+    //         model: 'xDrive40i',
+    //         type: 'SUV',
+    //         year: '2023',
+    //         licensePlate: 'GHI789',
+    //         ratePerDay: 180.00,
+    //         available: true,
+    //         description: 'Luxury SUV with powerful performance and premium interior.'
+    //     },
+    //     {
+    //         id: '4',
+    //         name: 'Ford Mustang',
+    //         model: 'GT',
+    //         type: 'Sports Car',
+    //         year: '2023',
+    //         licensePlate: 'JKL012',
+    //         ratePerDay: 120.00,
+    //         available: false,
+    //         description: 'Iconic American muscle car with V8 engine.'
+    //     },
+    //     {
+    //         id: '5',
+    //         name: 'Chevrolet Malibu',
+    //         model: 'LT',
+    //         type: 'Sedan',
+    //         year: '2022',
+    //         licensePlate: 'MNO345',
+    //         ratePerDay: 75.00,
+    //         available: true,
+    //         description: 'Spacious sedan with good fuel efficiency.'
+    //     },
+    //     {
+    //         id: '6',
+    //         name: 'Jeep Wrangler',
+    //         model: 'Rubicon',
+    //         type: 'SUV',
+    //         year: '2023',
+    //         licensePlate: 'PQR678',
+    //         ratePerDay: 150.00,
+    //         available: true,
+    //         description: 'Rugged off-road vehicle perfect for adventures.'
+    //     },
+    //     {
+    //         id: '7',
+    //         name: 'Nissan Altima',
+    //         model: 'SV',
+    //         type: 'Sedan',
+    //         year: '2022',
+    //         licensePlate: 'STU901',
+    //         ratePerDay: 70.00,
+    //         available: true,
+    //         description: 'Comfortable sedan with advanced safety features.'
+    //     },
+    //     {
+    //         id: '8',
+    //         name: 'Hyundai Sonata',
+    //         model: 'SEL',
+    //         type: 'Sedan',
+    //         year: '2023',
+    //         licensePlate: 'VWX234',
+    //         ratePerDay: 75.00,
+    //         available: false,
+    //         description: 'Modern sedan with sleek design and tech features.'
+    //     },
+    //     {
+    //         id: '9',
+    //         name: 'Audi A4',
+    //         model: 'Premium Plus',
+    //         type: 'Luxury Sedan',
+    //         year: '2023',
+    //         licensePlate: 'YZA567',
+    //         ratePerDay: 130.00,
+    //         available: true,
+    //         description: 'Premium German sedan with sophisticated technology.'
+    //     },
+    //     {
+    //         id: '10',
+    //         name: 'Mercedes-Benz E-Class',
+    //         model: 'E350',
+    //         type: 'Luxury Sedan',
+    //         year: '2023',
+    //         licensePlate: 'BCD890',
+    //         ratePerDay: 160.00,
+    //         available: true,
+    //         description: 'Elegant luxury sedan with premium comfort features.'
+    //     },
+    // ];
 
 
 
-    const [searchTerm, setSearchTerm] = useState('');
-    const [currentPage, setCurrentPage] = useState(1);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [editingVehicle, setEditingVehicle] = useState(null);
-    const itemsPerPage = 8;
+    // const [searchTerm, setSearchTerm] = useState('');
+    // const [currentPage, setCurrentPage] = useState(1);
+    // const [isModalOpen, setIsModalOpen] = useState(false);
+    // const [editingVehicle, setEditingVehicle] = useState(null);
+    // const itemsPerPage = 8;
 
-    // Filter vehicles based on search term
-    const filteredVehicles = mockVehicles.filter(vehicle =>
-        vehicle.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        vehicle.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        vehicle.licensePlate.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    // // Filter vehicles based on search term
+    // const filteredVehicles = mockVehicles.filter(vehicle =>
+    //     vehicle.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    //     vehicle.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    //     vehicle.licensePlate.toLowerCase().includes(searchTerm.toLowerCase())
+    // );
 
-    // Pagination
-    const indexOfLastVehicle = currentPage * itemsPerPage;
-    const indexOfFirstVehicle = indexOfLastVehicle - itemsPerPage;
-    const currentVehicles = filteredVehicles.slice(indexOfFirstVehicle, indexOfLastVehicle);
-    const totalPages = Math.ceil(filteredVehicles.length / itemsPerPage);
+    // // Pagination
+    // const indexOfLastVehicle = currentPage * itemsPerPage;
+    // const indexOfFirstVehicle = indexOfLastVehicle - itemsPerPage;
+    // const currentVehicles = filteredVehicles.slice(indexOfFirstVehicle, indexOfLastVehicle);
+    // const totalPages = Math.ceil(filteredVehicles.length / itemsPerPage);
 
-    // Handle add/edit vehicle
-    const handleAddVehicle = () => {
-        setEditingVehicle(null);
-        setIsModalOpen(true);
-    };
+    // // Handle add/edit vehicle
+    // const handleAddVehicle = () => {
+    //     setEditingVehicle(null);
+    //     setIsModalOpen(true);
+    // };
 
-    const handleEditVehicle = (vehicle) => {
-        setEditingVehicle(vehicle);
-        setIsModalOpen(true);
-    };
+    // const handleEditVehicle = (vehicle) => {
+    //     setEditingVehicle(vehicle);
+    //     setIsModalOpen(true);
+    // };
 
-    // Function to get availability badge styling
+    // // Function to get availability badge styling
     const getAvailabilityBadgeStyle = (available) => {
         return available
             ? 'bg-green-100 text-green-800'
@@ -168,15 +172,14 @@ const Vehicles = () => {
                         <input
                             type="text"
                             placeholder="Search vehicles..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
+
                             className="pl-10 pr-4 py-2 border border-gray-200 rounded-md w-full sm:w-64 focus:outline-none focus:ring-1 focus:ring-blue-500"
                         />
                     </div>
 
                     <div className="flex gap-2">
                         <button
-                            onClick={handleAddVehicle}
+
                             className="flex items-center justify-center px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-colors"
                         >
                             <Plus size={18} className="mr-2" />
@@ -199,7 +202,7 @@ const Vehicles = () => {
                         <thead>
                             <tr className="border-b border-gray-100">
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vehicle</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Capacity/Kg</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">License Plate</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rate/Day</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
@@ -207,8 +210,8 @@ const Vehicles = () => {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100">
-                            {currentVehicles.length > 0 ? (
-                                currentVehicles.map((vehicle) => (
+                            {totalVehicles.length > 0 ? (
+                                totalVehicles.map((vehicle) => (
                                     <tr key={vehicle.id} className="hover:bg-gray-50 transition-colors">
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center">
@@ -221,9 +224,9 @@ const Vehicles = () => {
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{vehicle.type}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{vehicle.licensePlate}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">${vehicle.ratePerDay}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{vehicle.capacity}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{vehicle.registration}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">${vehicle.rate}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <span className={`px-2 py-1 text-xs rounded-full ${getAvailabilityBadgeStyle(vehicle.available)}`}>
                                                 {vehicle.available ? 'Available' : 'Booked'}
@@ -259,14 +262,14 @@ const Vehicles = () => {
                 </div>
 
                 {/* Pagination */}
-                {filteredVehicles.length > 0 && (
+                {/* {totalVehicles.length > 0 && (
                     <div className="px-6 py-3 flex items-center justify-between border-t border-gray-100">
                         <div className="text-sm text-gray-500">
                             Showing <span className="font-medium">{indexOfFirstVehicle + 1}</span> to{' '}
                             <span className="font-medium">
-                                {Math.min(indexOfLastVehicle, filteredVehicles.length)}
+                                {Math.min(indexOfLastVehicle, totalVehicles.length)}
                             </span>{' '}
-                            of <span className="font-medium">{filteredVehicles.length}</span> results
+                            of <span className="font-medium">{totalVehicles.length}</span> results
                         </div>
 
                         <div className="flex space-x-1">
@@ -292,17 +295,17 @@ const Vehicles = () => {
                             </button>
                         </div>
                     </div>
-                )}
+                )} */}
             </div>
 
             {/* Add/Edit Vehicle Modal */}
-            {isModalOpen && (
+            {/* {isModalOpen && (
                 <VehicleModal
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                     vehicle={editingVehicle}
                 />
-            )}
+            )} */}
         </div>
     );
 };
