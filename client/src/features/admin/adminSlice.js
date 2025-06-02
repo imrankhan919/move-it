@@ -67,6 +67,23 @@ const adminSlice = createSlice({
                 state.isError = true
                 state.message = action.payload
             })
+            .addCase(createVehicle.pending, (state, action) => {
+                state.isLoading = true
+                state.isSuccess = false
+                state.isError = false
+            })
+            .addCase(createVehicle.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.totalVehicles = [action.payload, ...state.totalVehicles]
+                state.isError = false
+            })
+            .addCase(createVehicle.rejected, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = false
+                state.isError = true
+                state.message = action.payload
+            })
     }
 })
 
@@ -112,5 +129,21 @@ export const getAllVehicles = createAsyncThunk("ADMIN/FETCH/VEHICLES", async (_,
         const message = error.response.data.message
         return thunkAPI.rejectWithValue(message)
     }
+
+})
+
+
+// Add Vehicle
+export const createVehicle = createAsyncThunk("ADMIN/CREATE/VEHICLE", async (formData, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token
+
+    try {
+        return await adminService.addVehicle(token, formData)
+    } catch (error) {
+        const message = error.response.data.message
+        return thunkAPI.rejectWithValue(message)
+    }
+
+
 
 })

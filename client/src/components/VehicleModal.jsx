@@ -1,47 +1,54 @@
 import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
+import { useDispatch } from 'react-redux';
+import { createVehicle } from '../features/admin/adminSlice';
 
 const VehicleModal = ({ isOpen, onClose, vehicle }) => {
+
+    const dispatch = useDispatch()
+
+
+
     const [formData, setFormData] = useState({
         name: '',
-        model: '',
-        type: '',
-        year: '',
-        licensePlate: '',
-        ratePerDay: '',
-        available: true,
+        image: '',
         description: '',
+        registration: '',
+        capacity: '',
+        isAvailable: true,
+        rate: '',
     });
 
-    // If editing an existing vehicle, populate the form
-    useEffect(() => {
-        if (vehicle) {
-            setFormData({
-                name: vehicle.name || '',
-                model: vehicle.model || '',
-                type: vehicle.type || '',
-                year: vehicle.year || '',
-                licensePlate: vehicle.licensePlate || '',
-                ratePerDay: vehicle.ratePerDay.toString() || '',
-                available: vehicle.available,
-                description: vehicle.description || '',
-            });
-        }
-    }, [vehicle]);
+    // // If editing an existing vehicle, populate the form
+    // useEffect(() => {
+    //     if (vehicle) {
+    //         setFormData({
+    //             name: vehicle.name || '',
+    //             model: vehicle.model || '',
+    //             type: vehicle.type || '',
+    //             year: vehicle.year || '',
+    //             licensePlate: vehicle.licensePlate || '',
+    //             ratePerDay: vehicle.ratePerDay.toString() || '',
+    //             available: vehicle.available,
+    //             description: vehicle.description || '',
+    //         });
+    //     }
+    // }, [vehicle]);
 
     // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Here you would handle saving the vehicle data
-        console.log('Saving vehicle:', formData);
+        dispatch(createVehicle(formData))
         onClose();
     };
 
     // Handle input changes
     const handleChange = (e) => {
-        const { name, value, type } = e.target;
 
-
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        })
     };
 
     if (!isOpen) return null;
@@ -80,67 +87,44 @@ const VehicleModal = ({ isOpen, onClose, vehicle }) => {
 
                         <div>
                             <label htmlFor="model" className="block text-sm font-medium text-gray-700 mb-1">
-                                Model
+                                Image URL
                             </label>
                             <input
                                 type="text"
-                                id="model"
-                                name="model"
-                                value={formData.model}
+                                id="image"
+                                name="image"
+                                value={formData.image}
                                 onChange={handleChange}
                                 required
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                             />
                         </div>
-
-                        <div>
-                            <label htmlFor="type" className="block text-sm font-medium text-gray-700 mb-1">
-                                Type
-                            </label>
-                            <select
-                                id="type"
-                                name="type"
-                                value={formData.type}
-                                onChange={handleChange}
-                                required
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                            >
-                                <option value="">Select Type</option>
-                                <option value="Sedan">Sedan</option>
-                                <option value="SUV">SUV</option>
-                                <option value="Compact">Compact</option>
-                                <option value="Truck">Truck</option>
-                                <option value="Van">Van</option>
-                                <option value="Luxury">Luxury</option>
-                            </select>
-                        </div>
-
                         <div>
                             <label htmlFor="year" className="block text-sm font-medium text-gray-700 mb-1">
-                                Year
+                                Capacity
                             </label>
                             <input
                                 type="number"
-                                id="year"
-                                name="year"
-                                value={formData.year}
+                                id="capacity"
+                                name="capacity"
+                                value={formData.capacity}
                                 onChange={handleChange}
                                 required
-                                min="1900"
-                                max="2099"
+                                min="500"
+                                max="100000"
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                             />
                         </div>
 
                         <div>
                             <label htmlFor="licensePlate" className="block text-sm font-medium text-gray-700 mb-1">
-                                License Plate
+                                Registration
                             </label>
                             <input
                                 type="text"
-                                id="licensePlate"
-                                name="licensePlate"
-                                value={formData.licensePlate}
+                                id="registration"
+                                name="registration"
+                                value={formData.registration}
                                 onChange={handleChange}
                                 required
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
@@ -153,9 +137,9 @@ const VehicleModal = ({ isOpen, onClose, vehicle }) => {
                             </label>
                             <input
                                 type="number"
-                                id="ratePerDay"
-                                name="ratePerDay"
-                                value={formData.ratePerDay}
+                                id="rate"
+                                name="rate"
+                                value={formData.rate}
                                 onChange={handleChange}
                                 required
                                 min="0"
@@ -184,7 +168,7 @@ const VehicleModal = ({ isOpen, onClose, vehicle }) => {
                                     type="checkbox"
                                     id="available"
                                     name="available"
-                                    checked={formData.available}
+                                    checked={formData.isAvailable}
                                     onChange={handleChange}
                                     className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                                 />

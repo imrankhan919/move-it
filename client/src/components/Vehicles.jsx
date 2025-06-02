@@ -8,7 +8,7 @@ const Vehicles = () => {
     const { totalVehicles } = useSelector(state => state.admin)
 
 
-    // const mockVehicles = [
+
     //     {
     //         id: '1',
     //         name: 'Toyota Camry',
@@ -125,7 +125,7 @@ const Vehicles = () => {
 
     // const [searchTerm, setSearchTerm] = useState('');
     // const [currentPage, setCurrentPage] = useState(1);
-    // const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     // const [editingVehicle, setEditingVehicle] = useState(null);
     // const itemsPerPage = 8;
 
@@ -156,8 +156,8 @@ const Vehicles = () => {
     // // Function to get availability badge styling
     const getAvailabilityBadgeStyle = (available) => {
         return available
-            ? 'bg-green-100 text-green-800'
-            : 'bg-red-100 text-red-800';
+            ? 'bg-red-100 text-red-800'
+            : 'bg-green-100 text-green-800';
     };
 
     return (
@@ -179,7 +179,7 @@ const Vehicles = () => {
 
                     <div className="flex gap-2">
                         <button
-
+                            onClick={() => setIsModalOpen(true)}
                             className="flex items-center justify-center px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-colors"
                         >
                             <Plus size={18} className="mr-2" />
@@ -229,7 +229,7 @@ const Vehicles = () => {
                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">${vehicle.rate}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <span className={`px-2 py-1 text-xs rounded-full ${getAvailabilityBadgeStyle(vehicle.available)}`}>
-                                                {vehicle.available ? 'Available' : 'Booked'}
+                                                {vehicle.available ? 'Booked' : 'Available'}
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
@@ -299,13 +299,13 @@ const Vehicles = () => {
             </div>
 
             {/* Add/Edit Vehicle Modal */}
-            {/* {isModalOpen && (
+            {isModalOpen && (
                 <VehicleModal
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
-                    vehicle={editingVehicle}
+                // vehicle={editingVehicle}
                 />
-            )} */}
+            )}
         </div>
     );
 };

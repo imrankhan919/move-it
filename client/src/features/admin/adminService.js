@@ -31,10 +31,25 @@ const fetchAllVehicles = async (token) => {
 }
 
 
+const addVehicle = async (token, formData) => {
+    const options = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const response = await axios.post("/api/admin/add-vehicle", formData, options)
+    return response.data
+}
+
+
+
+
+
 const adminService = {
     fetchAllUsers,
-    fetchAllBookings
-    , fetchAllVehicles
+    fetchAllBookings,
+    fetchAllVehicles,
+    addVehicle
 }
 
 export default adminService
