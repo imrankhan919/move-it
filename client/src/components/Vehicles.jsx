@@ -1,159 +1,26 @@
 import React, { useState } from 'react';
 import { Search, Filter, Plus, ChevronDown, Edit, Trash, Eye, Car } from 'lucide-react';
 import VehicleModal from '../components/VehicleModal';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { editVehicleReducer, removeVehicle } from '../features/admin/adminSlice';
 
 const Vehicles = () => {
 
-    const { totalVehicles } = useSelector(state => state.admin)
+    const dispatch = useDispatch()
 
-
-
-    //     {
-    //         id: '1',
-    //         name: 'Toyota Camry',
-    //         model: 'LE',
-    //         type: 'Sedan',
-    //         year: '2023',
-    //         licensePlate: 'ABC123',
-    //         ratePerDay: 80.00,
-    //         available: true,
-    //         description: 'Comfortable sedan with excellent fuel economy.'
-    //     },
-    //     {
-    //         id: '2',
-    //         name: 'Honda Accord',
-    //         model: 'Sport',
-    //         type: 'Sedan',
-    //         year: '2022',
-    //         licensePlate: 'DEF456',
-    //         ratePerDay: 85.00,
-    //         available: true,
-    //         description: 'Reliable mid-size sedan with modern features.'
-    //     },
-    //     {
-    //         id: '3',
-    //         name: 'BMW X5',
-    //         model: 'xDrive40i',
-    //         type: 'SUV',
-    //         year: '2023',
-    //         licensePlate: 'GHI789',
-    //         ratePerDay: 180.00,
-    //         available: true,
-    //         description: 'Luxury SUV with powerful performance and premium interior.'
-    //     },
-    //     {
-    //         id: '4',
-    //         name: 'Ford Mustang',
-    //         model: 'GT',
-    //         type: 'Sports Car',
-    //         year: '2023',
-    //         licensePlate: 'JKL012',
-    //         ratePerDay: 120.00,
-    //         available: false,
-    //         description: 'Iconic American muscle car with V8 engine.'
-    //     },
-    //     {
-    //         id: '5',
-    //         name: 'Chevrolet Malibu',
-    //         model: 'LT',
-    //         type: 'Sedan',
-    //         year: '2022',
-    //         licensePlate: 'MNO345',
-    //         ratePerDay: 75.00,
-    //         available: true,
-    //         description: 'Spacious sedan with good fuel efficiency.'
-    //     },
-    //     {
-    //         id: '6',
-    //         name: 'Jeep Wrangler',
-    //         model: 'Rubicon',
-    //         type: 'SUV',
-    //         year: '2023',
-    //         licensePlate: 'PQR678',
-    //         ratePerDay: 150.00,
-    //         available: true,
-    //         description: 'Rugged off-road vehicle perfect for adventures.'
-    //     },
-    //     {
-    //         id: '7',
-    //         name: 'Nissan Altima',
-    //         model: 'SV',
-    //         type: 'Sedan',
-    //         year: '2022',
-    //         licensePlate: 'STU901',
-    //         ratePerDay: 70.00,
-    //         available: true,
-    //         description: 'Comfortable sedan with advanced safety features.'
-    //     },
-    //     {
-    //         id: '8',
-    //         name: 'Hyundai Sonata',
-    //         model: 'SEL',
-    //         type: 'Sedan',
-    //         year: '2023',
-    //         licensePlate: 'VWX234',
-    //         ratePerDay: 75.00,
-    //         available: false,
-    //         description: 'Modern sedan with sleek design and tech features.'
-    //     },
-    //     {
-    //         id: '9',
-    //         name: 'Audi A4',
-    //         model: 'Premium Plus',
-    //         type: 'Luxury Sedan',
-    //         year: '2023',
-    //         licensePlate: 'YZA567',
-    //         ratePerDay: 130.00,
-    //         available: true,
-    //         description: 'Premium German sedan with sophisticated technology.'
-    //     },
-    //     {
-    //         id: '10',
-    //         name: 'Mercedes-Benz E-Class',
-    //         model: 'E350',
-    //         type: 'Luxury Sedan',
-    //         year: '2023',
-    //         licensePlate: 'BCD890',
-    //         ratePerDay: 160.00,
-    //         available: true,
-    //         description: 'Elegant luxury sedan with premium comfort features.'
-    //     },
-    // ];
-
-
-
-    // const [searchTerm, setSearchTerm] = useState('');
-    // const [currentPage, setCurrentPage] = useState(1);
+    const { totalVehicles, editVehicle } = useSelector(state => state.admin)
     const [isModalOpen, setIsModalOpen] = useState(false);
-    // const [editingVehicle, setEditingVehicle] = useState(null);
-    // const itemsPerPage = 8;
 
-    // // Filter vehicles based on search term
-    // const filteredVehicles = mockVehicles.filter(vehicle =>
-    //     vehicle.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    //     vehicle.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    //     vehicle.licensePlate.toLowerCase().includes(searchTerm.toLowerCase())
-    // );
+    const handleEditVehicle = (vehicle) => {
+        setIsModalOpen(true)
+        dispatch(editVehicleReducer(vehicle))
+    }
 
-    // // Pagination
-    // const indexOfLastVehicle = currentPage * itemsPerPage;
-    // const indexOfFirstVehicle = indexOfLastVehicle - itemsPerPage;
-    // const currentVehicles = filteredVehicles.slice(indexOfFirstVehicle, indexOfLastVehicle);
-    // const totalPages = Math.ceil(filteredVehicles.length / itemsPerPage);
+    const handleRemove = (id) => {
+        dispatch(removeVehicle(id))
+    }
 
-    // // Handle add/edit vehicle
-    // const handleAddVehicle = () => {
-    //     setEditingVehicle(null);
-    //     setIsModalOpen(true);
-    // };
 
-    // const handleEditVehicle = (vehicle) => {
-    //     setEditingVehicle(vehicle);
-    //     setIsModalOpen(true);
-    // };
-
-    // // Function to get availability badge styling
     const getAvailabilityBadgeStyle = (available) => {
         return available
             ? 'bg-red-100 text-red-800'
@@ -240,7 +107,7 @@ const Vehicles = () => {
                                                 >
                                                     <Edit size={16} />
                                                 </button>
-                                                <button className="p-1 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-full transition-colors">
+                                                <button onClick={() => handleRemove(vehicle._id)} className="p-1 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-full transition-colors">
                                                     <Trash size={16} />
                                                 </button>
                                                 <button className="p-1 text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-full transition-colors">
@@ -303,7 +170,7 @@ const Vehicles = () => {
                 <VehicleModal
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
-                // vehicle={editingVehicle}
+                    vehicle={editVehicle}
                 />
             )}
         </div>

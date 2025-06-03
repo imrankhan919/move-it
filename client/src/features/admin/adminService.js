@@ -41,6 +41,25 @@ const addVehicle = async (token, formData) => {
     return response.data
 }
 
+const updateVehicle = async (token, formData) => {
+    const options = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const response = await axios.put("/api/admin/update-vehicle/" + formData._id, formData, options)
+    return response.data
+}
+const deleteVehicle = async (token, id) => {
+    const options = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const response = await axios.delete("/api/admin/remove-vehicle/" + id, options)
+    return response.data
+}
+
 
 
 
@@ -49,7 +68,9 @@ const adminService = {
     fetchAllUsers,
     fetchAllBookings,
     fetchAllVehicles,
-    addVehicle
+    addVehicle,
+    updateVehicle,
+    deleteVehicle
 }
 
 export default adminService

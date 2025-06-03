@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
-import { useDispatch } from 'react-redux';
-import { createVehicle } from '../features/admin/adminSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { createVehicle, updateTheVehicle } from '../features/admin/adminSlice';
 
 const VehicleModal = ({ isOpen, onClose, vehicle }) => {
+
+    const { editVehicle } = useSelector(state => state.admin)
 
     const dispatch = useDispatch()
 
@@ -19,26 +21,14 @@ const VehicleModal = ({ isOpen, onClose, vehicle }) => {
         rate: '',
     });
 
-    // // If editing an existing vehicle, populate the form
-    // useEffect(() => {
-    //     if (vehicle) {
-    //         setFormData({
-    //             name: vehicle.name || '',
-    //             model: vehicle.model || '',
-    //             type: vehicle.type || '',
-    //             year: vehicle.year || '',
-    //             licensePlate: vehicle.licensePlate || '',
-    //             ratePerDay: vehicle.ratePerDay.toString() || '',
-    //             available: vehicle.available,
-    //             description: vehicle.description || '',
-    //         });
-    //     }
-    // }, [vehicle]);
 
     // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(createVehicle(formData))
+        !editVehicle.isEdit ? dispatch(createVehicle(formData)) : dispatch(updateTheVehicle({
+            _id: editVehicle.vehicle._id,
+            ...formData
+        }))
         onClose();
     };
 
@@ -52,6 +42,12 @@ const VehicleModal = ({ isOpen, onClose, vehicle }) => {
     };
 
     if (!isOpen) return null;
+
+    useEffect(() => {
+        setFormData(vehicle.vehicle)
+    }, [vehicle])
+
+
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">

@@ -8,12 +8,23 @@ const adminSlice = createSlice({
         totalBookings: [],
         totalVehicles: [],
         totalComments: [],
+        editVehicle: {
+            vehicle: {},
+            isEdit: false
+        },
         isLoading: false,
         isSuccess: false,
         isError: false,
         message: ""
     },
-    reducers: {},
+    reducers: {
+        editVehicleReducer: (state, action) => {
+            return {
+                ...state,
+                editVehicle: { vehicle: action.payload, isEdit: true }
+            }
+        }
+    },
     extraReducers: builder => {
         builder
             .addCase(getAllUsers.pending, (state, action) => {
@@ -84,8 +95,46 @@ const adminSlice = createSlice({
                 state.isError = true
                 state.message = action.payload
             })
+            .addCase(updateTheVehicle.pending, (state, action) => {
+                state.isLoading = true
+                state.isSuccess = false
+                state.isError = false
+            })
+            .addCase(updateTheVehicle.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.totalVehicles = state.totalVehicles.map(item => item._id === action.payload._id ? action.payload : item),
+                    state.editVehicle = { vehicle: {}, isEdit: false }
+                state.isError = false
+            })
+            .addCase(updateTheVehicle.rejected, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = false
+                state.isError = true
+                state.message = action.payload
+            })
+            .addCase(removeVehicle.pending, (state, action) => {
+                state.isLoading = true
+                state.isSuccess = false
+                state.isError = false
+            })
+            .addCase(removeVehicle.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.totalVehicles = state.totalVehicles.filter(item => item._id !== action.payload.id),
+                    state.isError = false
+            })
+            .addCase(removeVehicle.rejected, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = false
+                state.isError = true
+                state.message = action.payload
+            })
     }
 })
+
+
+export const { editVehicleReducer } = adminSlice.actions
 
 export default adminSlice.reducer
 
@@ -143,7 +192,28 @@ export const createVehicle = createAsyncThunk("ADMIN/CREATE/VEHICLE", async (for
         const message = error.response.data.message
         return thunkAPI.rejectWithValue(message)
     }
+})
 
+// Add Vehicle
+export const updateTheVehicle = createAsyncThunk("ADMIN/UPDATE/VEHICLE", async (formData, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token
 
+    try {
+        return await adminService.updateVehicle(token, formData)
+    } catch (error) {
+        const message = error.response.data.message
+        return thunkAPI.rejectWithValue(message)
+    }
+})
 
+// Remove Vehicle
+export const removeVehicle = createAsyncThunk("ADMIN/REMOVE/VEHICLE", async (id, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token
+
+    try {
+        return await adminService.deleteVehicle(token, id)
+    } catch (error) {
+        const message = error.response.data.message
+        return thunkAPI.rejectWithValue(message)
+    }
 })
