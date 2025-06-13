@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
+import { toast } from 'react-toastify'
 import { useDispatch, useSelector } from 'react-redux';
 import { createVehicle, updateTheVehicle } from '../features/admin/adminSlice';
 
 const VehicleModal = ({ isOpen, onClose, vehicle }) => {
 
-    const { editVehicle } = useSelector(state => state.admin)
+    const { editVehicle, isError, message } = useSelector(state => state.admin)
 
     const dispatch = useDispatch()
 
@@ -17,9 +18,32 @@ const VehicleModal = ({ isOpen, onClose, vehicle }) => {
         description: '',
         registration: '',
         capacity: '',
-        isAvailable: true,
+        isAvailable: false,
         rate: '',
     });
+
+
+    // Handle input changes
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        })
+    };
+
+
+
+    const checkAvailability = (e) => {
+        setFormData({
+            ...formData,
+            isAvailable: formData.isAvailable ? false : true
+        })
+    }
+
+
+
+    // if (!isOpen) return null;
+
 
 
     // Handle form submission
@@ -32,20 +56,14 @@ const VehicleModal = ({ isOpen, onClose, vehicle }) => {
         onClose();
     };
 
-    // Handle input changes
-    const handleChange = (e) => {
-
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        })
-    };
-
-    if (!isOpen) return null;
-
     useEffect(() => {
         setFormData(vehicle.vehicle)
-    }, [vehicle])
+
+        if (isError && message) {
+            toast.error(message)
+        }
+
+    }, [vehicle, isError, message])
 
 
 
@@ -162,13 +180,13 @@ const VehicleModal = ({ isOpen, onClose, vehicle }) => {
                             <div className="flex items-center">
                                 <input
                                     type="checkbox"
-                                    id="available"
-                                    name="available"
+                                    id="isAvailable"
+                                    name="isAvailable"
                                     checked={formData.isAvailable}
-                                    onChange={handleChange}
+                                    onChange={checkAvailability}
                                     className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                                 />
-                                <label htmlFor="available" className="ml-2 block text-sm text-gray-700">
+                                <label htmlFor="isAvailable" className="ml-2 block text-sm text-gray-700">
                                     Vehicle is available for booking
                                 </label>
                             </div>
@@ -187,7 +205,7 @@ const VehicleModal = ({ isOpen, onClose, vehicle }) => {
                             type="submit"
                             className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                         >
-                            {vehicle ? 'Update Vehicle' : 'Add Vehicle'}
+                            {editVehicle.isEdit ? 'Update Vehicle' : 'Add Vehicle'}
                         </button>
                     </div>
                 </form>

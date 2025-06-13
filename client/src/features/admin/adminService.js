@@ -32,6 +32,9 @@ const fetchAllVehicles = async (token) => {
 
 
 const addVehicle = async (token, formData) => {
+
+    console.log(formData)
+
     const options = {
         headers: {
             Authorization: `Bearer ${token}`
@@ -50,6 +53,9 @@ const updateVehicle = async (token, formData) => {
     const response = await axios.put("/api/admin/update-vehicle/" + formData._id, formData, options)
     return response.data
 }
+
+
+
 const deleteVehicle = async (token, id) => {
     const options = {
         headers: {
