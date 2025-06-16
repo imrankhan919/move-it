@@ -3,6 +3,7 @@ import { Search, Filter, Plus, ChevronDown, Edit, Trash, Eye, Car } from 'lucide
 import VehicleModal from '../components/VehicleModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { editVehicleReducer, removeVehicle } from '../features/admin/adminSlice';
+import { Link } from "react-router-dom"
 
 const Vehicles = () => {
 
@@ -110,9 +111,9 @@ const Vehicles = () => {
                                                 <button onClick={() => handleRemove(vehicle._id)} className="p-1 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-full transition-colors">
                                                     <Trash size={16} />
                                                 </button>
-                                                <button className="p-1 text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-full transition-colors">
+                                                <Link to={`/vehicle/${vehicle._id}`} className="p-1 text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-full transition-colors">
                                                     <Eye size={16} />
-                                                </button>
+                                                </Link>
                                             </div>
                                         </td>
                                     </tr>

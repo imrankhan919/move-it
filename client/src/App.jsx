@@ -12,6 +12,7 @@ import Users from "./components/Users"
 import Bookings from "./components/Bookings"
 import Vehicles from "./components/Vehicles"
 import Comments from "./components/Comments"
+import TruckDetails from "./pages/TruckDetails"
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/quote" element={<Quote />} />
+        <Route path="/vehicle/:vid" element={<TruckDetails />} />
         <Route path="/auth/admin" element={<Admin />} >
           <Route path="" element={<Dashboard />} />
           <Route path="users" element={<Users />} />

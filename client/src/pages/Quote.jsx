@@ -1,42 +1,18 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { MapPin, Clock, Calendar, ArrowRight } from 'lucide-react';
 import Button from '../components/Button';
 import FormInput from '../components/FormInput';
+import { useDispatch, useSelector } from 'react-redux';
+import { getVehicles } from '../features/vehicle/vehicleSlice';
 
-const vehicles = [
-    {
-        id: 1,
-        name: 'Small Van',
-        image: 'https://images.pexels.com/photos/2920064/pexels-photo-2920064.jpeg',
-        description: 'Perfect for small moves and deliveries',
-        capacity: 'Up to 1000kg',
-        basePrice: 29.99,
-        pricePerKm: 1.5,
-        dimensions: '1.8m x 1.2m x 1.2m'
-    },
-    {
-        id: 2,
-        name: 'Medium Van',
-        image: 'https://images.pexels.com/photos/2707722/pexels-photo-2707722.jpeg',
-        description: 'Ideal for apartment moves',
-        capacity: 'Up to 2500kg',
-        basePrice: 49.99,
-        pricePerKm: 2.0,
-        dimensions: '3.1m x 1.7m x 1.9m'
-    },
-    {
-        id: 3,
-        name: 'Large Truck',
-        image: 'https://images.pexels.com/photos/2199293/pexels-photo-2199293.jpeg',
-        description: 'Best for house moves',
-        capacity: 'Up to 3500kg',
-        basePrice: 79.99,
-        pricePerKm: 2.5,
-        dimensions: '4.2m x 2.1m x 2.2m'
-    }
-];
+
 
 const Quote = () => {
+
+    const { vehicles } = useSelector(state => state.vehicle)
+    const dispatch = useDispatch()
+
+
     const [selectedVehicle, setSelectedVehicle] = useState(null);
     const [pickupAddress, setPickupAddress] = useState('');
     const [deliveryAddress, setDeliveryAddress] = useState('');
@@ -72,6 +48,13 @@ const Quote = () => {
         });
         setLoading(false);
     };
+
+
+    useEffect(() => {
+        dispatch(getVehicles())
+    }, [])
+
+
 
     return (
         <div className="min-h-screen bg-gray-50">
