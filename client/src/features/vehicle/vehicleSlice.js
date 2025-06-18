@@ -38,7 +38,8 @@ const vehicleSlice = createSlice({
             })
             .addCase(getVehicles.fulfilled, (state, action) => {
                 state.isLoading = false
-                state.vehicles = action.payload
+                state.vehicles = action.payload.vehicles
+                state.deliveryData = action.payload.deliveryData
                 state.isSuccess = true
                 state.isError = false
             })
@@ -67,10 +68,10 @@ export const getVehicle = createAsyncThunk("GET/VEHICLE", async (vid, thunkAPI) 
 })
 
 // GET Vehicles
-export const getVehicles = createAsyncThunk("GET/VEHICLES", async (vid, thunkAPI) => {
+export const getVehicles = createAsyncThunk("GET/VEHICLES", async (deliveryData, thunkAPI) => {
 
     try {
-        return await vehicleService.getVehicles()
+        return await vehicleService.getVehicles(deliveryData)
     } catch (error) {
         const message = error.response.data.message
         return thunkAPI.rejectWithValue(message)

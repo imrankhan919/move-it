@@ -1,57 +1,34 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { MapPin, Clock, Calendar, ArrowRight } from 'lucide-react';
+import { MapPin, Clock, Calendar, ArrowRight, WeightIcon } from 'lucide-react';
 import Button from '../components/Button';
 import FormInput from '../components/FormInput';
 import { useDispatch, useSelector } from 'react-redux';
 import { getVehicles } from '../features/vehicle/vehicleSlice';
+import { addBooking } from '../features/booking/bookingSlice';
 
 
 
 const Quote = () => {
 
-    const { vehicles } = useSelector(state => state.vehicle)
+    const { vehicles, deliveryData } = useSelector(state => state.vehicle)
     const dispatch = useDispatch()
 
 
-    const [selectedVehicle, setSelectedVehicle] = useState(null);
-    const [pickupAddress, setPickupAddress] = useState('');
-    const [deliveryAddress, setDeliveryAddress] = useState('');
-    const [date, setDate] = useState('');
-    const [time, setTime] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [distance] = useState(15); // Simulated distance in km
 
-    const totalCost = useMemo(() => {
-        if (!selectedVehicle) return null;
-        const baseCost = selectedVehicle.basePrice;
-        const distanceCost = distance * selectedVehicle.pricePerKm;
-        return {
-            base: baseCost,
-            distance: distanceCost,
-            total: baseCost + distanceCost
-        };
-    }, [selectedVehicle, distance]);
+    const [pickupAddress, setPickupAddress] = useState(deliveryData?.pickupLocation);
+    const [deliveryAddress, setDeliveryAddress] = useState(deliveryData?.dropLocation);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!selectedVehicle) return;
 
-        setLoading(true);
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        console.log('Booking submitted:', {
-            vehicle: selectedVehicle,
-            pickup: pickupAddress,
-            delivery: deliveryAddress,
-            date,
-            time,
-            cost: totalCost
-        });
-        setLoading(false);
-    };
+    const handleAddBooking = (id) => {
+
+        dispatch(addBooking({ id: id, pickupLocation: pickupAddress, dropLocation: deliveryAddress, weight: deliveryData.weight }))
+
+    }
+
 
 
     useEffect(() => {
-        dispatch(getVehicles())
+        // dispatch(getVehicles())
     }, [])
 
 
@@ -70,20 +47,21 @@ const Quote = () => {
 
                 <div className="lg:grid lg:grid-cols-3 lg:gap-8">
                     <div className="lg:col-span-2">
-                        <form onSubmit={handleSubmit} className="space-y-8">
+                        <div className="space-y-8">
                             <div className="grid grid-cols-1 gap-6">
                                 {vehicles.map((vehicle) => (
                                     <div
                                         key={vehicle.id}
-                                        className={`
+                                        className={vehicle?.isAvailable ? `
                       relative rounded-lg border-2 overflow-hidden cursor-pointer
-                      transition-all duration-200 hover:shadow-lg bg-white
-                      ${selectedVehicle?.id === vehicle.id
-                                                ? 'border-indigo-600 ring-2 ring-indigo-600 ring-opacity-50'
-                                                : 'border-gray-200 hover:border-indigo-200'
-                                            }
+                      transition-all duration-200 hover:shadow-lg bg-white border-gray-200 hover:border-indigo-200'
+                                            
+                    ` : `
+                      relative rounded-lg border-2 overflow-hidden cursor-pointer
+                      transition-all duration-200 hover:shadow-lg bg-gray-500 border-gray-200 hover:border-indigo-200'
+                                            
                     `}
-                                        onClick={() => setSelectedVehicle(vehicle)}
+
                                     >
                                         <div className="flex">
                                             <div className="w-1/3">
@@ -104,10 +82,10 @@ const Quote = () => {
                                                         </p>
                                                     </div>
                                                     <div className="text-right">
-                                                        <span className="text-2xl font-bold text-gray-900">
-                                                            ${vehicle.basePrice}
+                                                        <span className="text-xl font-bold text-gray-900">
+                                                            INR {vehicle.rate}
                                                         </span>
-                                                        <span className="text-gray-500 text-sm">/hour</span>
+                                                        <span className="text-gray-500 text-sm">/km</span>
                                                     </div>
                                                 </div>
 
@@ -117,10 +95,11 @@ const Quote = () => {
                                                         <span className="ml-2">{vehicle.capacity}</span>
                                                     </div>
                                                     <div>
-                                                        <span className="font-medium">Dimensions:</span>
-                                                        <span className="ml-2">{vehicle.dimensions}</span>
+                                                        <span className="font-medium">Registration:</span>
+                                                        <span className="ml-2">{vehicle.registration}</span>
                                                     </div>
                                                 </div>
+                                                <button onClick={() => handleAddBooking(vehicle._id)} className={vehicle?.isAvailable ? 'float-end mt-8 bg-green-500 py-1.5 hover:bg-green-700 cursor-pointer px-6 rounded-md font-semibold text-white' : 'float-end mt-8 bg-gray-500 py-1.5 hover:bg-gray-700 cursor-pointer px-6 rounded-md font-semibold text-white'}>{vehicle?.isAvailable ? "Book Now" : "Not Available"}</button>
                                             </div>
                                         </div>
                                     </div>
@@ -134,8 +113,8 @@ const Quote = () => {
                                         type="text"
                                         placeholder="Enter pickup location"
                                         value={pickupAddress}
-                                        onChange={(e) => setPickupAddress(e.target.value)}
                                         icon={<MapPin size={18} className="text-gray-500" />}
+                                        disabled
                                     />
 
                                     <FormInput
@@ -143,30 +122,23 @@ const Quote = () => {
                                         type="text"
                                         placeholder="Enter delivery location"
                                         value={deliveryAddress}
-                                        onChange={(e) => setDeliveryAddress(e.target.value)}
                                         icon={<MapPin size={18} className="text-gray-500" />}
+                                        disabled
                                     />
 
                                     <FormInput
-                                        label="Date"
-                                        type="date"
-                                        value={date}
-                                        onChange={(e) => setDate(e.target.value)}
-                                        icon={<Calendar size={18} className="text-gray-500" />}
+                                        label="Weight (Kilograms)"
+                                        type="text"
+                                        value={deliveryData?.weight}
+                                        icon={<WeightIcon size={18} className="text-gray-500" />}
+                                        disabled
                                     />
 
-                                    <FormInput
-                                        label="Time"
-                                        type="time"
-                                        value={time}
-                                        onChange={(e) => setTime(e.target.value)}
-                                        icon={<Clock size={18} className="text-gray-500" />}
-                                    />
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
-
+                    {/* 
                     <div className="mt-8 lg:mt-0">
                         <div className="bg-white rounded-lg shadow-sm p-6 sticky top-8">
                             <h3 className="text-lg font-medium text-gray-900">Price Breakdown</h3>
@@ -204,7 +176,7 @@ const Quote = () => {
                                 </div>
                             )}
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

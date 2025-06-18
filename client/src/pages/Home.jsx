@@ -1,14 +1,28 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom"
 import Hero from "../assets/hero.svg"
 import { ChevronRight, Truck, MapPin, Package } from 'lucide-react';
 import FeatureCard from '../components/FeatureCard';
 import TestimonialCard from '../components/TestimonialCard';
 import Footer from '../components/Footer';
+import { useDispatch } from 'react-redux';
+import { getVehicles } from '../features/vehicle/vehicleSlice';
 
 const Home = () => {
     const [pickupLocation, setPickupLocation] = useState('');
     const [dropLocation, setDropLocation] = useState('');
     const [weight, setWeight] = useState('');
+
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+
+    const getQuote = (e) => {
+        e.preventDefault()
+        navigate("/quote")
+        dispatch(getVehicles({ pickupLocation, dropLocation, weight }))
+    }
+
 
     return (
         <>
@@ -83,7 +97,7 @@ const Home = () => {
                                 </p>
                             </div>
 
-                            <form className="bg-white rounded-lg shadow-md p-6">
+                            <form onSubmit={getQuote} className="bg-white rounded-lg shadow-md p-6">
                                 <div className="space-y-6">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-1">Pickup Location</label>
@@ -94,6 +108,8 @@ const Home = () => {
                                                 required
                                                 placeholder="Enter pickup address"
                                                 className="pl-10 pr-4 py-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                                value={pickupLocation}
+                                                onChange={e => setPickupLocation(e.target.value)}
                                             />
                                         </div>
                                     </div>
@@ -107,6 +123,8 @@ const Home = () => {
                                                 required
                                                 placeholder="Enter destination address"
                                                 className="pl-10 pr-4 py-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                                value={dropLocation}
+                                                onChange={e => setDropLocation(e.target.value)}
                                             />
                                         </div>
                                     </div>
@@ -121,6 +139,8 @@ const Home = () => {
                                                 min="1"
                                                 placeholder="Enter package weight"
                                                 className="pl-10 pr-4 py-3 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                                value={weight}
+                                                onChange={e => setWeight(e.target.value)}
                                             />
                                         </div>
                                     </div>

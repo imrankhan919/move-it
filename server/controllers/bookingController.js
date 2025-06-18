@@ -38,7 +38,7 @@ async function getDistance(city1, city2) {
 const addBooking = async (req, res) => {
 
     // Get Vehicle
-    const vehicle = await Vehicle.findById(req.params.uid)
+    const vehicle = await Vehicle.findById(req.params.vid)
 
     if (!vehicle) {
         res.status(404)
@@ -47,6 +47,8 @@ const addBooking = async (req, res) => {
 
     // Check if all fields are coming 
     const { pickupLocation, dropLocation, weight } = req.body
+
+    console.log(req.body)
 
     if (!pickupLocation || !dropLocation || !weight) {
         res.status(400)

@@ -5,9 +5,13 @@ const getVehicle = async (vid) => {
     return response.data
 }
 
-const getVehicles = async () => {
+const getVehicles = async (deliveryData) => {
+    console.log(deliveryData)
     const response = await axios.get('/api/vehicle/')
-    return response.data
+
+    const data = response.data.filter(item => item.capacity >= deliveryData.weight)
+    return { vehicles: data, deliveryData: deliveryData }
+
 }
 
 

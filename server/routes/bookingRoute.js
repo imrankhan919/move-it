@@ -4,7 +4,7 @@ const protect = require('../middleware/authMiddleware')
 
 const router = express.Router()
 
-router.post("/:uid", protect, addBooking)
+router.post("/:vid", protect, addBooking)
 router.get("/:bid", protect, getBooking)
 router.put("/:bid", protect, cancelBooking)
 
